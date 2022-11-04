@@ -1,0 +1,72 @@
+<h3 class="welcome-message">Welcome, {{validPt.patient_name}}</h3>
+<p *ngIf="validPt.adocid==0;then ifBlock else elseBlock "></p>
+<ng-template #ifBlock>
+    <p class="booking-message">You have no booking</p>
+</ng-template>
+<ng-template #elseBlock>
+    <h4 *ngFor="let dr of allDoctors">
+        <h4 *ngIf="dr.docid==validPt.adocid"> 
+            <p class="booking-message">You have a booking with {{dr.doctor_name}} ({{dr.specialization}})</p>
+            <p class="booking-message">Timing: {{dr.timing}}</p>
+        </h4>
+       
+    </h4>
+    
+</ng-template>
+
+<h2>Registered Doctors</h2>
+<!-- <button (click)="getDoctors()">View all Doctors</button> -->
+Search:<input type="text" placeholder="search doctors" [(ngModel)]="searchkey">
+<br><br>
+<div class="all-doctors" >
+    <table border="2px" class="patient-table">
+        <tr><th>Doctor id</th><th>Name</th><th>specialization</th><th>slots</th><th>Fees</th>
+            <th>Password</th><th>Timing</th></tr>
+                <ng-container *ngFor="let d of allDoctors">
+                    <tr *ngIf="d.specialization.toLocaleLowerCase().includes(searchkey)">
+                        <td>{{d.docid}}</td><td>{{d.doctor_name}}</td><td>{{d.specialization}}</td><td>{{d.slots}}</td>
+                        <td>{{d.fees}}</td><td>{{d.docpass}}</td><td>{{d.timing}}</td>
+                      </tr>
+
+                </ng-container>
+               
+            
+       
+    </table>
+</div>
+
+<!-- Previous doctor booking fn below -->
+<!-- <div class="doctor-booking">
+    <form #bookingrq="ngForm" (submit)="bookingRequest(bookingrq.value)">
+        <input type="number" ngModel name="adocid" placeholder="Enter the doctors id to book">
+        <button type="submit">Request booking</button>
+        </form>
+</div> -->
+
+<h3>Booking</h3>
+<p>Enter the Doctor id to request a booking</p>
+<p>Enter 0 to cancel a booking</p>
+
+<div class="doctor-booking-newfn">
+    <form #nbookingrq="ngForm" (submit)="nBookingRequest(nbookingrq.value)">
+        <input type="number" ngModel name="docid" placeholder="Enter the doctors id to book">
+        <button type="submit">Request booking</button>
+        </form>
+</div>
+<br>
+<br>
+
+
+<div class="patient-feedback">
+    <h3>Feedback</h3>
+    <form #feedbackform="ngForm" (submit)="giveFeedback(feedbackform.value)">
+        <input type="number" ngModel name="docid" placeholder="Doctor id"><br>
+        <input type="text" ngModel name="feedback" placeholder="Feedback"><br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+
+
+
+        
